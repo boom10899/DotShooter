@@ -45,14 +45,16 @@ class SpaceFight(SimpleGame):
 		if self.is_key_pressed(K_SPACE):
 			for i in range(self.gameLevel):
 				if(self.isShoot[i] == False):
-					if((i == 0) or (i > 0 and self.laser[i-1].y-100 < self.player.y)):
+					if((i == 0) or (i > 0 and self.laser[i-1].y+100 < self.player.y)):
 						self.isShoot[i] = True
 						self.laser[i] = Laser(self.player.x, self.player.y)
 						break
 		elif self.is_key_pressed(K_LEFT):
-			self.player.move_left()
+			if(self.player.x > 20):
+				self.player.move_left()
 		elif self.is_key_pressed(K_RIGHT):
-			self.player.move_right()
+			if(self.player.x < 780):
+				self.player.move_right()
 
 	def render(self, surface):
 		self.player.render(surface)
@@ -67,9 +69,9 @@ class SpaceFight(SimpleGame):
 
 	def checkCollision(self):
 		for i in range(self.gameLevel):
-			print "Enemy %d : (%d, %d)" % (i, self.enemy[i].x, self.enemy[i].y)
+			# print "Enemy %d : (%d, %d)" % (i, self.enemy[i].x, self.enemy[i].y)
 			for j in range(self.gameLevel):
-				print "Laser %d : (%d, %d)" % (j, self.laser[i].x, self.laser[i].y)
+				# print "Laser %d : (%d, %d)" % (j, self.laser[j].x, self.laser[j].y)
 				if(self.laser[j].y <= self.enemy[i].y and self.laser[j].y+20 >= self.enemy[i].y):
 					# print "Check Y : Passed"
 					if(self.laser[j].x-15 <= self.enemy[i].x and self.laser[j].x+15 >= self.enemy[i].x):
