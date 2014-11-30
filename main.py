@@ -22,11 +22,15 @@ class SpaceFight(SimpleGame):
 	def update(self):
 		if self.isShoot:
 			self.laser.y -= 10
+			print(self.laser.y)
+			if(self.laser.y < 0):
+				self.isShoot = False
 
 		if self.is_key_pressed(K_SPACE):
-			self.isShoot = True
-			self.player.shoot()
-			self.laser = Laser(self.player.x, self.player.y)
+			if(self.isShoot == False):
+				self.isShoot = True
+				self.player.shoot()
+				self.laser = Laser(self.player.x, self.player.y)
 		elif self.is_key_pressed(K_LEFT):
 			self.player.move_left()
 		elif self.is_key_pressed(K_RIGHT):
