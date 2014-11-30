@@ -14,17 +14,23 @@ class SpaceFight(SimpleGame):
 		self.player = Player(posX=390, posY=580)
 		self.isShoot = False
 		self.enemy = []
-		self.gameLevel = 10
+		self.gameLevel = 1
 		for i in range(self.gameLevel):
-			tmp_enemy = Enemy(posX=random.randint(50, 750), posY=100)
+			tmp_enemy = Enemy(posX=random.randint(50, 750), posY=0)
 			self.enemy.append(tmp_enemy)
 
 	def update(self):
 		if self.isShoot:
 			self.laser.y -= 10
-			print(self.laser.y)
+			self.checkCollision()
 			if(self.laser.y < 0):
 				self.isShoot = False
+
+		for i in range(self.gameLevel):
+			self.enemy[i].y += 3
+			if(self.enemy[i].y >= 600):
+				self.enemy[i].x = random.randint(50, 750)
+				self.enemy[i].y = 0
 
 		if self.is_key_pressed(K_SPACE):
 			if(self.isShoot == False):
@@ -44,9 +50,19 @@ class SpaceFight(SimpleGame):
 		if self.isShoot:
 			self.laser.render(surface)
 
-	def checkCollision():
-		pass
-
+	def checkCollision(self):
+		print "Laser : ", self.laser.x, self.laser.y
+		for i in range(self.gameLevel):
+			print "Enemy ", i, " : ", self.enemy[i].x, " , ", self.enemy[i].y
+			if(self.laser.y <= self.enemy[i].y and self.laser.y+20 >= self.enemy[i].y):
+				print "Check Y : Passed"
+				if(self.laser.x-15 <= self.enemy[i].x and self.laser.x+15 >= self.enemy[i].x):
+					print "Check X : Passed"
+					self.enemy[i].x = random.randint(50, 750)
+					self.enemy[i].y = 0
+					self.laser.x = 0
+					self.laser.y = 0
+					self.isShoot = False
 
 def main():
 	game = SpaceFight()
