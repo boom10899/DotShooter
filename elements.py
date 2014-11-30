@@ -6,6 +6,7 @@ class Player(object):
 	def __init__(self, posX, posY):
 		self.x = posX
 		self.y = posY
+		self.HP = 5
 
 	def render(self, surface):
 		pygame.draw.circle(surface, pygame.Color('white'), (self.x, self.y), 10, 0)

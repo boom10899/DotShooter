@@ -7,17 +7,21 @@ import random
 class SpaceFight(SimpleGame):
 	BLACK = pygame.Color('black')
 	WHITE = pygame.Color('white')
-	RED = pygame.Color('red')
 
 	def __init__(self):        
 		super(SpaceFight, self).__init__('SpaceFight', SpaceFight.BLACK)
 		self.player = Player(posX=390, posY=580)
 		self.isShoot = False
 		self.enemy = []
-		self.gameLevel = 1
+		self.gameLevel = 3
+		self.score = 0
 		for i in range(self.gameLevel):
 			tmp_enemy = Enemy(posX=random.randint(50, 750), posY=0)
 			self.enemy.append(tmp_enemy)
+
+	def init(self):
+		super(SpaceFight, self).init()
+		self.render_score()
 
 	def update(self):
 		if self.isShoot:
@@ -50,19 +54,24 @@ class SpaceFight(SimpleGame):
 		if self.isShoot:
 			self.laser.render(surface)
 
+	def render_score(self):
+		self.score_image = self.font.render("Score = %d" % self.score, 20, SpaceFight.WHITE)
+
 	def checkCollision(self):
-		print "Laser : ", self.laser.x, self.laser.y
+		# print "Laser : ", self.laser.x, self.laser.y
 		for i in range(self.gameLevel):
-			print "Enemy ", i, " : ", self.enemy[i].x, " , ", self.enemy[i].y
+			# print "Enemy ", i, " : ", self.enemy[i].x, " , ", self.enemy[i].y
 			if(self.laser.y <= self.enemy[i].y and self.laser.y+20 >= self.enemy[i].y):
-				print "Check Y : Passed"
+				# print "Check Y : Passed"
 				if(self.laser.x-15 <= self.enemy[i].x and self.laser.x+15 >= self.enemy[i].x):
-					print "Check X : Passed"
+					# print "Check X : Passed"
 					self.enemy[i].x = random.randint(50, 750)
 					self.enemy[i].y = 0
 					self.laser.x = 0
 					self.laser.y = 0
 					self.isShoot = False
+					self.score += 1
+					print "Score : %d" % self.score
 
 def main():
 	game = SpaceFight()
