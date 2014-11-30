@@ -4,12 +4,12 @@ from gamelib import SimpleGame
 from elements import *
 import random
 
-class SpaceFight(SimpleGame):
+class DotShooter(SimpleGame):
 	BLACK = pygame.Color('black')
 	WHITE = pygame.Color('white')
 
 	def __init__(self):        
-		super(SpaceFight, self).__init__('SpaceFight', SpaceFight.BLACK)
+		super(DotShooter, self).__init__('DotShotter', DotShooter.BLACK)
 		self.player = Player(posX=390, posY=580)
 		self.isShoot = []
 		self.laser = []
@@ -18,11 +18,11 @@ class SpaceFight(SimpleGame):
 		self.score = 0
 		for i in range(10):
 			self.enemy.append(Enemy(posX=random.randint(50, 750), posY=0))
-			self.laser.append(Laser(posX=0, posY=0))
+			self.laser.append(Laser(posX=800, posY=600))
 			self.isShoot.append(False)
 
 	def init(self):
-		super(SpaceFight, self).init()
+		super(DotShooter, self).init()
 		self.render_score()
 
 	def update(self):
@@ -45,7 +45,7 @@ class SpaceFight(SimpleGame):
 		if self.is_key_pressed(K_SPACE):
 			for i in range(self.gameLevel):
 				if(self.isShoot[i] == False):
-					if((i == 0) or (i > 0 and self.laser[i-1].y+100 < self.player.y)):
+					if((i == 0) or (i > 0 and self.laser[i-1].y+200 < self.player.y)):
 						self.isShoot[i] = True
 						self.laser[i] = Laser(self.player.x, self.player.y)
 						break
@@ -65,7 +65,7 @@ class SpaceFight(SimpleGame):
 				self.laser[i].render(surface)
 
 	def render_score(self):
-		self.score_image = self.font.render("Score = %d" % self.score, 20, SpaceFight.WHITE)
+		self.score_image = self.font.render("Score = %d" % self.score, 20, DotShooter.WHITE)
 
 	def checkCollision(self):
 		for i in range(self.gameLevel):
@@ -84,7 +84,7 @@ class SpaceFight(SimpleGame):
 						self.score += 1
 
 def main():
-	game = SpaceFight()
+	game = DotShooter()
 	game.run()
 
 if __name__ == '__main__':
