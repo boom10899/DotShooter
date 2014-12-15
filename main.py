@@ -23,7 +23,6 @@ class DotShooter(SimpleGame):
 
 	def init(self):
 		super(DotShooter, self).init()
-		self.render_score()
 
 	def update(self):
 		if(self.player.HP > 0):
@@ -56,10 +55,11 @@ class DotShooter(SimpleGame):
 			elif self.is_key_pressed(K_RIGHT):
 				if(self.player.x < 780):
 					self.player.move_right()
-		elif(self.player.HP == 0):
+		elif(self.player.HP <= 0):
 			print "Game Over"
 
 	def render(self, surface):
+		self.render_score(surface)
 		self.player.render(surface)
 
 		for i in range(self.gameLevel):
@@ -67,8 +67,17 @@ class DotShooter(SimpleGame):
 			if self.isShoot[i]:
 				self.laser[i].render(surface)
 
-	def render_score(self):
-		self.score_image = self.font.render("Score = %d" % self.score, 20, DotShooter.WHITE)
+	def render_score(self, surface):
+		self.font = pygame.font.SysFont("monospace", 20)
+		self.score_image = self.font.render("Score = %d" % self.score, 0, DotShooter.WHITE)
+		self.HP_image = self.font.render("HP = %d" % self.player.HP, 0, DotShooter.WHITE)
+		surface.blit(self.score_image, (10, 10))
+		surface.blit(self.HP_image, (10, 40))
+
+		if(self.player.HP <= 0):
+			self.font = pygame.font.SysFont("monospace", 20)
+			self.gameover_image = self.font.render("Game Over", 0, DotShooter.WHITE)
+			surface.blit(self.gameover_image, (360, 290))
 
 	def checkCollision(self):
 		for i in range(self.gameLevel):
