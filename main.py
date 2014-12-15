@@ -14,7 +14,7 @@ class DotShooter(SimpleGame):
 		self.isShoot = []
 		self.laser = []
 		self.enemy = []
-		self.gameLevel = 10
+		self.gameLevel = 5
 		self.score = 0
 		for i in range(10):
 			self.enemy.append(Enemy(posX=random.randint(50, 750), posY=0))
@@ -26,35 +26,38 @@ class DotShooter(SimpleGame):
 		self.render_score()
 
 	def update(self):
-		print "HP : %d ; Level : %d ; Score : %d" % (self.player.HP , self.gameLevel, self.score)
+		if(self.player.HP > 0):
+			print "HP : %d ; Level : %d ; Score : %d" % (self.player.HP , self.gameLevel, self.score)
 
-		for i in range(self.gameLevel):
-			self.enemy[i].y += 3
-			if self.isShoot[i]:
-				self.laser[i].y -= 10
-				self.checkCollision()
-				if(self.laser[i].y < 0):
-					self.isShoot[i] = False
-			if(self.enemy[i].y >= 600):
-				self.enemy[i].x = random.randint(50, 750)
-				self.enemy[i].y = 0
-				self.player.HP -= 1
-				if(self.player.HP == 0):
-					pass
-
-		if self.is_key_pressed(K_SPACE):
 			for i in range(self.gameLevel):
-				if(self.isShoot[i] == False):
-					if((i == 0) or (i > 0 and self.laser[i-1].y+200 < self.player.y)):
-						self.isShoot[i] = True
-						self.laser[i] = Laser(self.player.x, self.player.y)
-						break
-		elif self.is_key_pressed(K_LEFT):
-			if(self.player.x > 20):
-				self.player.move_left()
-		elif self.is_key_pressed(K_RIGHT):
-			if(self.player.x < 780):
-				self.player.move_right()
+				self.enemy[i].y += 3
+				if self.isShoot[i]:
+					self.laser[i].y -= 10
+					self.checkCollision()
+					if(self.laser[i].y < 0):
+						self.isShoot[i] = False
+				if(self.enemy[i].y >= 600):
+					self.enemy[i].x = random.randint(50, 750)
+					self.enemy[i].y = 0
+					self.player.HP -= 1
+					if(self.player.HP == 0):
+						pass
+
+			if self.is_key_pressed(K_SPACE):
+				for i in range(self.gameLevel):
+					if(self.isShoot[i] == False):
+						if((i == 0) or (i > 0 and self.laser[i-1].y+200 < self.player.y)):
+							self.isShoot[i] = True
+							self.laser[i] = Laser(self.player.x, self.player.y)
+							break
+			elif self.is_key_pressed(K_LEFT):
+				if(self.player.x > 20):
+					self.player.move_left()
+			elif self.is_key_pressed(K_RIGHT):
+				if(self.player.x < 780):
+					self.player.move_right()
+		elif(self.player.HP == 0):
+			print "Game Over"
 
 	def render(self, surface):
 		self.player.render(surface)
