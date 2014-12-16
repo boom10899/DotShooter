@@ -45,7 +45,7 @@ class DotShooter(SimpleGame):
 			if self.is_key_pressed(K_SPACE):
 				for i in range(self.gameLevel):
 					if(self.isShoot[i] == False):
-						if((i == 0) or (i > 0 and self.laser[i-1].y+200 < self.player.y)):
+						if((i == 0) or (i > 0 and self.laser[i-1].y+100 < self.player.y)):
 							self.isShoot[i] = True
 							self.laser[i] = Laser(self.player.x, self.player.y)
 							break

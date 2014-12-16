@@ -12,10 +12,10 @@ class Player(object):
 		pygame.draw.circle(surface, pygame.Color('white'), (self.x, self.y), 10, 0)
 
 	def move_left(self):
-		self.x -= 8
+		self.x -= 10
 
 	def move_right(self):
-		self.x += 8
+		self.x += 10
 
 	def shoot(self):
 		pass
