@@ -58,6 +58,9 @@ class DotShooter(SimpleGame):
 		elif(self.player.HP <= 0):
 			print "Game Over"
 
+			if self.is_key_pressed(K_SPACE):
+				main()
+
 	def render(self, surface):
 		self.render_score(surface)
 		self.player.render(surface)
